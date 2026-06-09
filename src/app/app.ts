@@ -40,5 +40,17 @@ export class App {
 
     this.amount = 0;
   }
+deleteExpense(index:number)
+{
+    /*console.log("Index:", index);
+    console.log("Expenses:", this.expenses);
+    console.log("Selected Expense:", this.expenses[index]);   */
+
+    this.totalExpense =
+        this.totalExpense -
+        this.expenses[index].amount;
+
+    this.expenses.splice(index,1);
+}
 
 }
