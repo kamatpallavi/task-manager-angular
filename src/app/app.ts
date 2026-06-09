@@ -2,6 +2,7 @@ import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { Expense } from './expense';
 
 @Component({
   selector: 'app-root',
@@ -20,7 +21,7 @@ export class App {
 
   totalExpense = 0;
 
-  expenses: any[] = [];
+  expenses: Expense [] = [];
 
   addExpense()
   {
