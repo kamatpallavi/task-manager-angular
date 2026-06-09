@@ -1,0 +1,68 @@
+<h1>{{title}}</h1>
+
+<hr>
+
+<div>
+
+    <label>Expense Name</label>
+    <br>
+
+    <input
+        type="text"
+        [(ngModel)]="expenseTitle">
+
+</div>
+
+<br>
+
+<div>
+
+    <label>Amount</label>
+    <br>
+
+    <input
+        type="number"
+        [(ngModel)]="amount">
+
+</div>
+
+<br>
+
+<button (click)="addExpense()">
+    Add Expense
+</button>
+
+<hr>
+
+<h2>Expenses</h2>
+
+<table border="1">
+
+    <tr>
+        <th>Title</th>
+        <th>Amount</th>
+        <th>Date</th>
+        <th>Action</th>
+    </tr>
+
+    <tr *ngFor="let expense of expenseData.expenses; let i = index">
+
+        <td>{{expense.title}}</td>
+
+        <td>₹{{expense.amount}}</td>
+
+        <td>{{expense.date}}</td>
+
+        <td>
+            <button (click)="deleteExpense(i)">
+                Delete
+            </button>
+        </td>
+
+    </tr>
+
+</table>
+
+<hr>
+
+<h2>Total Expense : ₹{{totalExpense}}</h2>
