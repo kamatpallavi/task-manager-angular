@@ -1,12 +1,44 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, FormsModule, CommonModule],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
+
 export class App {
-  protected readonly title = signal('task-manager-ui');
+
+  title = "Expense Tracker";
+
+  expenseTitle = "";
+
+  amount = 0;
+
+  totalExpense = 0;
+
+  expenses: any[] = [];
+
+  addExpense()
+  {
+    const expense =
+    {
+      title: this.expenseTitle,
+      amount: this.amount,
+        date: new Date().toLocaleDateString()
+    };
+
+    this.expenses.push(expense);
+
+    this.totalExpense =
+      this.totalExpense + this.amount;
+
+    this.expenseTitle = "";
+
+    this.amount = 0;
+  }
+
 }
