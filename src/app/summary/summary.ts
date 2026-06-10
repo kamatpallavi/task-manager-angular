@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
 import { ExpenseData } from '../expense-data';
+import { RouterLink } from '@angular/router';
+
 
 @Component({
   selector: 'app-summary',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './summary.html',
   styleUrl: './summary.css',
 })
