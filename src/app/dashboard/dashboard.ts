@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { ExpenseData } from '../expense-data';
 import { RouterModule } from '@angular/router';
 
+import { ExpenseData } from '../expense-data';
+import { ExpenseApi } from '../expense-api';
 
 @Component({
   selector: 'app-dashboard',
@@ -13,7 +14,10 @@ import { RouterModule } from '@angular/router';
 })
 export class Dashboard {
 
-  constructor(public expenseData: ExpenseData)
+  constructor(
+    public expenseData: ExpenseData,
+    private expenseApi: ExpenseApi
+  )
   {
   }
 
@@ -31,10 +35,11 @@ export class Dashboard {
     {
       title: this.expenseTitle,
       amount: this.amount,
-      date: new Date().toLocaleDateString()
+      expenseDate: new Date()
     };
 
-    this.expenseData.expenses.push(expense);
+    this.expenseApi.addExpense(expense)
+      .subscribe();
 
     this.totalExpense =
       this.totalExpense + this.amount;
@@ -52,5 +57,4 @@ export class Dashboard {
 
     this.expenseData.expenses.splice(index, 1);
   }
-
 }
