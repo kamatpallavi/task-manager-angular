@@ -1,32 +1,46 @@
-import { Component } from '@angular/core';
-import { ExpenseData } from '../expense-data';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-
+import { ExpenseApi } from '../expense-api';
 
 @Component({
   selector: 'app-summary',
-  imports: [RouterLink],
+  imports: [CommonModule, RouterLink],
   templateUrl: './summary.html',
-  styleUrl: './summary.css',
+  styleUrl: './summary.css'
 })
-export class Summary {
+export class Summary implements OnInit {
 
-  constructor(public expenseData: ExpenseData) {
+  expenses: any[] = [];
+
+  totalAmount = 0;
+
+  constructor(private expenseApi: ExpenseApi)
+  {
   }
-  getTotalExpenses()
-{
-    return this.expenseData.expenses.length;
-}
-  getTotalAmount()
-{
-    let total = 0;
 
-    for(let expense of this.expenseData.expenses)
-    {
-        total = total + expense.amount;
-    }
+  ngOnInit()
+  {
+    this.loadExpenses();
+  }
 
-    return total;
-}
+  loadExpenses()
+  {
+    this.expenseApi.getExpenses()
+      .subscribe((data: any) =>
+      {
+        console.log('Summary Data:', data);
 
+        this.expenses = data;
+
+        this.totalAmount = 0;
+
+        for (let expense of this.expenses)
+        {
+          this.totalAmount += Number(expense.amount);
+        }
+
+        console.log('Total Amount:', this.totalAmount);
+      });
+  }
 }

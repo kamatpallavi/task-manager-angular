@@ -1,8 +1,27 @@
 <h1>Expense Summary</h1>
+<h1 style="color:red">
+  SUMMARY PAGE CHANGED
+</h1>
+<hr>
+
+<h2>Total Expenses : {{expenses.length}}</h2>
+
+<h2>Total Amount : ₹{{totalAmount}}</h2>
 
 <hr>
 
-<h2>Total Expenses : {{getTotalExpenses()}}</h2>
+<table border="1">
+    <tr>
+        <th>Title</th>
+        <th>Amount</th>
+    </tr>
 
-<h2>Total Amount : ₹{{getTotalAmount()}}</h2>
+    <tr *ngFor="let expense of expenses">
+        <td>{{expense.title}}</td>
+        <td>₹{{expense.amount}}</td>
+    </tr>
+</table>
+
+<br>
+
 <a routerLink="/">Back to Dashboard</a>

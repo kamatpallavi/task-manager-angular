@@ -28,7 +28,7 @@
 
 <br>
 
-<button (click)="addExpense()">
+<button type="button" (click)="addExpense()">
     Add Expense
 </button>
 
@@ -45,16 +45,16 @@
         <th>Action</th>
     </tr>
 
-    <tr *ngFor="let expense of expenseData.expenses; let i = index">
+    <tr *ngFor="let expense of expenses; let i = index">
 
         <td>{{expense.title}}</td>
 
         <td>₹{{expense.amount}}</td>
 
-        <td>{{expense.date}}</td>
+        <td>{{expense.expenseDate}}</td>
 
         <td>
-            <button (click)="deleteExpense(i)">
+            <button (click)="deleteExpense(expense.expenseId)">
                 Delete
             </button>
         </td>

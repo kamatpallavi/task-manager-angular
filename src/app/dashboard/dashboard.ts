@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -12,7 +12,7 @@ import { ExpenseApi } from '../expense-api';
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css'
 })
-export class Dashboard {
+export class Dashboard implements OnInit {
 
   constructor(
     public expenseData: ExpenseData,
@@ -23,38 +23,75 @@ export class Dashboard {
 
   title = "Expense Tracker";
 
+  expenses: any[] = [];
+
   expenseTitle = "";
 
   amount = 0;
 
   totalExpense = 0;
 
-  addExpense()
+  ngOnInit()
   {
-    const expense =
+    this.loadExpenses();
+  }
+
+  loadExpenses()
+  {
+    this.expenseApi.getExpenses()
+      .subscribe((data: any) =>
+      {
+        this.expenses = data;
+
+        this.totalExpense = 0;
+
+        for (let expense of this.expenses)
+        {
+          this.totalExpense =
+            this.totalExpense + expense.amount;
+        }
+      });
+  }
+addExpense()
+{
+  if (!this.expenseTitle || this.amount <= 0)
+  {
+    return;
+  }
+
+  const expense =
+  {
+    title: this.expenseTitle,
+    amount: this.amount,
+    expenseDate: new Date()
+  };
+
+  this.expenseApi.addExpense(expense)
+    .subscribe(() =>
     {
-      title: this.expenseTitle,
-      amount: this.amount,
-      expenseDate: new Date()
-    };
+      this.loadExpenses();
 
-    this.expenseApi.addExpense(expense)
-      .subscribe();
+      this.expenseTitle = "";
 
-    this.totalExpense =
-      this.totalExpense + this.amount;
+      this.amount = 0;
+    });
+}
+  deleteExpense(expenseId: number)
+{
+  console.log("Delete Clicked:", expenseId);
 
-    this.expenseTitle = "";
-
-    this.amount = 0;
-  }
-
-  deleteExpense(index: number)
-  {
-    this.totalExpense =
-      this.totalExpense -
-      this.expenseData.expenses[index].amount;
-
-    this.expenseData.expenses.splice(index, 1);
-  }
+  this.expenseApi.deleteExpense(expenseId)
+    .subscribe({
+      next: () =>
+      {
+        console.log("Deleted Successfully");
+        this.loadExpenses();
+      },
+      error: (error) =>
+      {
+        console.log("Delete Error");
+        console.log(error);
+      }
+    });
+}
 }
